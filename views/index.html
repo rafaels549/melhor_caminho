@@ -6,17 +6,39 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="step1">
+    <div class="grafo">
         <h2>Passo 1: Grafo a ser utilizado</h2>
         <p>Aqui está o grafo que será utilizado:</p>
         <div id="graphContainer"></div>
     </div>
-
-    <div class="step2">
+  <form id="searchForm">
+    <div class="metodos">
         <h2>O método que deseja utilizar</h2>
-         
+        <select id="methodSelect">
+            <option value="amplitude">Amplitude</option>
+            <option value="profundidade">Profundidade</option>
+
+        </select>
     </div>
+    <div>
+        <h2>Passo 2: Vértice inicial</h2>
+        <p>Escolha o vértice inicial:</p>
+        <input type="text" id="startVertex" placeholder="Vértice inicial">
+        <input type="text" id="endVertex" placeholder="Vértice final (opcional)">
+        <button id="startButton" type="submit">Iniciar Busca</button>
+    </div>
+     </form>
+
+    <div class="resultado">
+        <h2>Resultado da Busca</h2>
+        <p id="caminho"></p>
+        <div id="resultContainer"></div>
+    </div>
+
+   
+
 
 </body>
 </html>
 <script src="/static/grafo_cliente.js"></script>
+<script src="/static/index.js"></script>
