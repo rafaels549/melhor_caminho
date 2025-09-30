@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css">
     <title>Document</title>
 </head>
 <body>
+    <h2 id="loader">Loading...</h2>
+   <div id="container">
     <div class="grafo">
         <h2>Passo 1: Grafo a ser utilizado</h2>
         <p>Aqui está o grafo que será utilizado:</p>
@@ -24,7 +27,7 @@
         <h2>Passo 2: Vértice inicial</h2>
         <p>Escolha o vértice inicial:</p>
         <input type="text" id="startVertex" placeholder="Vértice inicial">
-        <input type="text" id="endVertex" placeholder="Vértice final (opcional)">
+        <input type="text" id="endVertex" placeholder="Vértice final">
         <button id="startButton" type="submit">Iniciar Busca</button>
     </div>
      </form>
@@ -35,7 +38,7 @@
         <div id="resultContainer"></div>
     </div>
 
-   
+   </div>
 
 
 </body>
