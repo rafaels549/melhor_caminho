@@ -1,5 +1,139 @@
-img {
+/* Definições Gerais */
+:root {
+    /* Cores */
+    --cor-primaria: #007bff; /* Um azul vibrante para destaque (pode ser trocado) */
+    --cor-fundo: #f8f9fa;   /* Cinza muito claro */
+    --cor-texto: #343a40;   /* Quase preto */
+    --cor-borda: #dee2e6;   /* Cinza claro para bordas */
+    --cor-sombra: rgba(0, 0, 0, 0.05); /* Sombra suave */
+}
 
-     width: 50%;
-     height: auto;
+body {
+    font-family: Arial, sans-serif; /* Fonte simples e legível */
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6; /* Melhora a leitura do texto */
+}
+
+/* Container Principal */
+#container {
+    max-width: 900px; /* Limita a largura para melhor leitura em telas grandes */
+    margin: 40px auto; /* Centraliza na tela com margem no topo e na base */
+    padding: 30px;
+    background-color: #ffffff; /* Fundo branco para o conteúdo principal */
+    border-radius: 8px; /* Cantos arredondados suaves */
+    box-shadow: 0 4px 12px var(--cor-sombra); /* Sombra leve para dar profundidade */
+}
+
+/* Títulos */
+h2 {
+    color: var(--cor-primaria);
+    border-bottom: 2px solid var(--cor-borda); /* Linha sutil abaixo dos títulos */
+    padding-bottom: 10px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* Seções (Grafo, Métodos, Resultado) */
+.grafo, .metodos, .resultado {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 5px;
+}
+
+/* Formulário de Busca */
+#searchForm div {
+    margin-bottom: 20px;
+}
+
+/* Inputs e Select */
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+}
+
+/* Botão */
+button#startButton {
+    background-color: var(--cor-primaria);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease; /* Transição suave ao passar o mouse */
+}
+
+button#startButton:hover {
+    background-color: #0056b3; /* Um tom um pouco mais escuro ao passar o mouse */
+}
+
+/* Placeholder de Carregamento */
+#loader {
+    text-align: center;
+    color: var(--cor-primaria);
+    margin-top: 50px;
+    font-size: 1.5em;
+}
+
+/* Área do Grafo (se você for usar uma imagem ou canvas) */
+#graphContainer {
+    min-height: 200px; /* Garante que a área seja visível */
+    background-color: #f1f1f1; /* Fundo levemente cinza */
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Garante que qualquer conteúdo de imagem ou SVG dentro de graphContainer se ajuste */
+#graphContainer img,
+#graphContainer svg,
+#graphContainer canvas {
+    max-width: 100%; /* Garante que a largura máxima é 100% do pai */
+    height: auto;    /* Mantém a proporção da imagem/SVG */
+    display: block;  /* Remove qualquer espaço extra abaixo */
+}
+
+/* Estilo para imagem dentro do grafo - mantendo sua regra original, mas ajustada ao container */
+.grafo img {
+    max-width: 100%; /* Garante que a imagem não ultrapasse o container */
+    height: auto;
+    display: block; /* Remove espaços extras */
+}
+
+/* Área de Resultado */
+#caminho {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#resultContainer {
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    
+    /* ADICIONE ESTAS DUAS LINHAS: */
+    overflow-x: auto; /* Adiciona barra de rolagem horizontal se o conteúdo for muito largo */
+    overflow-y: hidden; /* Opcional: mantém o visual limpo, deixando a rolagem apenas para os lados */
+}
+
+#resultContainer img,
+#resultContainer svg,
+#resultContainer canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
