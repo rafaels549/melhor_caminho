@@ -137,3 +137,7 @@ button#startButton:hover {
     height: auto;
     display: block;
 }
+
+#limite {
+     display: none;
+}

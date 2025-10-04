@@ -8,6 +8,13 @@
 </head>
 <body>
     <h2 id="loader">Loading...</h2>
+    <div id="grafo_modo">
+            <h2>Escolha o tipo de grafo</h2>
+         <input type="radio" id="grafo_sem_pesos" name="grafo" value="grafo_sem_pesos" checked>
+         <label for="grafo_sem_pesos">Grafo sem pesos</label>
+         <input type="radio" id="grafo_com_pesos" name="grafo" value="grafo_com_pesos">
+         <label for="grafo_com_pesos">Grafo com pesos</label>
+    </div>
    <div id="container">
     <div class="grafo">
         <h2>Passo 1: Grafo a ser utilizado</h2>
@@ -20,8 +27,14 @@
         <select id="methodSelect">
             <option value="amplitude">Amplitude</option>
             <option value="profundidade">Profundidade</option>
+            <option value="prof_limitada">Profundidade limitada</option>
+            <option value="bidirecional">Bidirecional</option>
 
         </select>
+        <div id="limite">
+            <label for="number"></label>
+            <input id="number"  type="number"> </input>
+        </div>
     </div>
     <div>
         <h2>Passo 2: Vértice inicial</h2>
@@ -44,4 +57,3 @@
 </body>
 </html>
 <script src="/static/grafo_cliente.js"></script>
-<script src="/static/index.js"></script>
