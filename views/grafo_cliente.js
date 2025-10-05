@@ -25,6 +25,13 @@ document.getElementById("methodSelect").addEventListener("change", function(even
 })
 document.querySelectorAll("input[name='grafo']").forEach(radio => {
     radio.addEventListener("change", function() {
+        const caminho = document.getElementById("caminho");
+        const graphImg = document.getElementById("graphContainer").querySelector("img");
+        const resultContainer = document.getElementById("resultContainer");
+      
+        caminho.innerText = "";
+        if (graphImg) graphImg.removeAttribute("src");
+        if (resultContainer) resultContainer.innerHTML = "";
         const tipoGrafo = this.value;
         geraImagemGrafo(tipoGrafo);
     });
