@@ -3,18 +3,19 @@ const URL = "http://127.0.0.1:8000";
 document.addEventListener("DOMContentLoaded", function() {
     geraImagemGrafo();
     
+    
 });
 
 document.getElementById("searchForm").addEventListener("submit", function(event) {
     encontrarCaminho(event);
 });
 document.getElementById("methodSelect").addEventListener("change", function(event){
-      if(this.value == "profundidade" || this.value=="prof_limitada"){
+      if(this.value == "prof_limitada" || this.value=="aprof_iterativo"){
            const divLimite = document.getElementById("limite")
-           const label  = document.getElementById("number");
+           const label  = document.getElementById("labelNumber");
             divLimite.style.display = "block"
 
-             if(this.value == "profundidade"){
+             if(this.value == "prof_limitada"){
                  label.innerText="Limite"
              }else{
                  label.innerText = "Limite Máximo"
@@ -29,6 +30,13 @@ document.querySelectorAll("input[name='grafo']").forEach(radio => {
     });
 });
 function geraImagemGrafo(tipoGrafo="grafo_sem_pesos") {
+    if(tipoGrafo === "grafo_com_pesos"){
+        document.getElementById("methodSelect").style.display = "none";
+        document.getElementById("methodSelect2").style.display = "block";
+    }else{
+        document.getElementById("methodSelect").style.display = "block";
+        document.getElementById("methodSelect2").style.display = "none";
+    }
     const loader = document.getElementById("loader");
     loader.style.display = "block"; // mostra loader
     document.getElementById("container").style.opacity = "0"; // escurece container
@@ -52,7 +60,21 @@ function encontrarCaminho(event) {
     event.preventDefault();
     const startVertex = document.getElementById("startVertex").value;
     const endVertex = document.getElementById("endVertex").value;
-    const method = document.getElementById("methodSelect").value;
+     let tipoGrafo = "grafo_sem_pesos";
+    document.querySelectorAll("input[name='grafo']").forEach(radio => {
+        if (radio.checked) {
+            tipoGrafo = radio.value;
+        }
+    });
+    
+    let methodSelect;
+    if(tipoGrafo === "grafo_com_pesos"){
+        methodSelect = document.getElementById("methodSelect2");
+    }else{
+        methodSelect = document.getElementById("methodSelect");
+    }
+    const method = methodSelect.value;
+
      const limiteInput = document.getElementById("number");
     let limite;
    if (limiteInput.value && limiteInput) {
@@ -61,14 +83,14 @@ function encontrarCaminho(event) {
     const loader = document.getElementById("loader");
     loader.style.display = "block"; 
     document.getElementById("container").style.opacity = "0";
-    debugger;
+   
 
     fetch(URL + "/calcular-rota", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ start: startVertex, end: endVertex, method: method, ...(limite !== undefined ? { limite } : {}) })
+        body: JSON.stringify({ start: startVertex, end: endVertex, method: method, ...(limite !== undefined ? { limite } : {}), tipoGrafo: tipoGrafo })
     })
     .then(response => response.json())
     .then(data => {

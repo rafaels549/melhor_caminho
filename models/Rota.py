@@ -6,3 +6,4 @@ class Rota(BaseModel):
     end: str
     method: str
     limite: Optional[int] = None 
+    tipoGrafo: str = "grafo_sem_pesos"

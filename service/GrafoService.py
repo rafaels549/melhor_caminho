@@ -4,6 +4,7 @@ import io
 import base64
 from pathlib import Path
 from BuscaNP import buscaNP
+from BuscaP import buscaP
 
 
 class GrafoService:
@@ -15,14 +16,9 @@ class GrafoService:
     _tipoGrafo  = None
 
     def __init__(self, tipoGrafo=None):
-        if GrafoService._grafo is None or tipoGrafo != GrafoService._tipoGrafo or tipoGrafo is None:
+        if GrafoService._grafo is None or tipoGrafo != GrafoService._tipoGrafo:
             self.carregar_grafo(tipoGrafo)
 
-        self.G = GrafoService._grafo
-        self.pos = GrafoService._pos
-        self.nos = GrafoService._nos
-        self.lista_adjacencia = GrafoService._lista_adjacencia
-        self.tipoGrafo = tipoGrafo
 
     def carregar_grafo(self, tipoGrafo=None):
         # Define arquivo a ser carregado
@@ -84,14 +80,14 @@ class GrafoService:
 
     def gera_grafo(self):
         plt.figure(figsize=(10, 8))
-        nx.draw(self.G, self.pos, with_labels=True, node_color="lightgray",
+        nx.draw(GrafoService._grafo, self._pos, with_labels=True, node_color="lightgray",
                 edge_color="gray", node_size=500)
          # Desenha os pesos das arestas
-        if self.tipoGrafo == "grafo_com_pesos":
-            edge_labels = nx.get_edge_attributes(self.G, "weight")
+        if self._tipoGrafo == "grafo_com_pesos":
+            edge_labels = nx.get_edge_attributes(GrafoService._grafo, "weight")
             nx.draw_networkx_edge_labels(
-            self.G,
-            self.pos,
+            GrafoService._grafo,
+            self._pos,
             edge_labels=edge_labels,
             font_size=9,
             label_pos=0.5, 
@@ -106,57 +102,83 @@ class GrafoService:
         buf.seek(0)
         return {"image_base64": base64.b64encode(buf.getvalue()).decode("utf-8")}
 
-    def calcular_rota(self, start, end, method, limite=None):
+    def calcular_rota(self, start, end, method, tipoGrafo, limite=None):
         nos, grafo = self.gerar_lista_adjacencia()
 
-    
-        busca = buscaNP()
+        if tipoGrafo == "grafo_com_pesos":
+            busca = buscaP()
+        else:
+            busca = buscaNP()
         if limite is not None:
             caminho = getattr(busca, method)(start, end, nos, grafo, limite)
         else:
             caminho = getattr(busca, method)(start, end, nos, grafo)
         if not caminho:
             return {"valores": ["Erro ao fazer busca, caminho não encontrado"], "imagem_base64": None}
-        caminho_imagem = self._desenhar_caminho(caminho)
+        caminho_imagem = self._desenhar_caminho(caminho, tipoGrafo)
         return {"valores": caminho, "imagem_base64": caminho_imagem}
 
     def gerar_lista_adjacencia(self):
         
-        nos = self.nos
-        listaDeAdjacencia = self.lista_adjacencia
-
+        nos = self._nos
+        listaDeAdjacencia = self._lista_adjacencia
+      
         grafo = []
         for no in nos:
             grafo.append(listaDeAdjacencia.get(no, []))
-
+        
         return nos, grafo
 
-    def _desenhar_caminho(self, caminho):
-        plt.figure(figsize=(6, 4))
+    def _desenhar_caminho(self, caminho_com_custo, tipoGrafo):
+        plt.figure(figsize=(10, 8))
 
-        
-        nx.draw(self.G, self.pos, with_labels=True,
-                node_color="lightgray", edge_color="gray",
-                node_size=500)
+        # Se for tupla (caminho, custo_total), separa
+        if isinstance(caminho_com_custo, tuple):
+            caminho, custo_total = caminho_com_custo
+        else:
+            caminho = caminho_com_custo
 
-        
+        # Desenha o grafo base
+        nx.draw(
+            GrafoService._grafo, self._pos,
+            with_labels=True,
+            node_color="lightgray",
+            edge_color="gray",
+            node_size=500
+        )
+
+        # Destaca os nós do caminho
         nx.draw_networkx_nodes(
-            self.G, self.pos,
+            GrafoService._grafo, self._pos,
             nodelist=caminho,
             node_color="lightgreen",
             node_size=600
         )
 
-    
+        # Destaca as arestas do caminho
         edges = list(zip(caminho, caminho[1:]))
         nx.draw_networkx_edges(
-            self.G, self.pos,
+            GrafoService._grafo, self._pos,
             edgelist=edges,
             edge_color="red",
             width=2
         )
 
+        # Se for grafo com pesos, exibe os pesos
+        if tipoGrafo == "grafo_com_pesos":
+            edge_labels = nx.get_edge_attributes(GrafoService._grafo, "weight")
+            nx.draw_networkx_edge_labels(
+                GrafoService._grafo,
+                self._pos,
+                edge_labels=edge_labels,
+                font_size=9,
+                label_pos=0.5,
+                rotate=False,
+                bbox=dict(facecolor='white', edgecolor='none', alpha=0.8)
+            )
+
         plt.axis("off")
+
         buf = io.BytesIO()
         plt.savefig(buf, format="png", dpi=300)
         plt.close()

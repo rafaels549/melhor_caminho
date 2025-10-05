@@ -26,8 +26,9 @@ def calcular_rota(rota: Rota):
     end = rota.end
     method = rota.method
     limite = rota.limite
+    tipoGrafo = rota.tipoGrafo
     if limite is not None:
-       return grafo_service.calcular_rota(start, end, method, limite=limite)
+       return grafo_service.calcular_rota(start, end, method, tipoGrafo, limite)
     else:
-        return grafo_service.calcular_rota(start, end, method)
+        return grafo_service.calcular_rota(start, end, method,tipoGrafo)
 
