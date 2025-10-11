@@ -308,7 +308,7 @@ class buscaP(object):
                 for novo in filhos:
                     # custo acumulado até o sucessor
                     v2 = valor_atual + novo[1]
-                    v1 = v2 + self.heuristica_grafo(nos,novo[0],fim) 
+                    v1 = v2 + self.heuristica_grafo(nos,novo[0],fim,grafo) 
                     
                     # Verifica se está dentro do limite
                     if v1<=limite:

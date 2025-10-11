@@ -116,6 +116,11 @@ class GrafoService:
         if not caminho:
             return {"valores": ["Erro ao fazer busca, caminho não encontrado"], "imagem_base64": None}
         caminho_imagem = self._desenhar_caminho(caminho, tipoGrafo)
+        if(tipoGrafo == "grafo_com_pesos" ):
+            if(method == "aia_estrela"):
+                return {"valores": caminho[0], "custo_total": caminho[1], "limite": caminho[2], "imagem_base64": caminho_imagem}
+            return {"valores": caminho[0], "custo_total": caminho[1], "imagem_base64": caminho_imagem}
+        
         return {"valores": caminho, "imagem_base64": caminho_imagem}
 
     def gerar_lista_adjacencia(self):
@@ -134,7 +139,7 @@ class GrafoService:
 
         # Se for tupla (caminho, custo_total), separa
         if isinstance(caminho_com_custo, tuple):
-            caminho, custo_total = caminho_com_custo
+            caminho = caminho_com_custo[0]
         else:
             caminho = caminho_com_custo
 

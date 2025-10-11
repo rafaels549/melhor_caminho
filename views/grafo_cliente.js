@@ -10,9 +10,10 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
     encontrarCaminho(event);
 });
 document.getElementById("methodSelect").addEventListener("change", function(event){
+       const divLimite = document.getElementById("limite")
+       const label  = document.getElementById("labelNumber");
       if(this.value == "prof_limitada" || this.value=="aprof_iterativo"){
-           const divLimite = document.getElementById("limite")
-           const label  = document.getElementById("labelNumber");
+        
             divLimite.style.display = "block"
 
              if(this.value == "prof_limitada"){
@@ -21,6 +22,8 @@ document.getElementById("methodSelect").addEventListener("change", function(even
                  label.innerText = "Limite Máximo"
              }
           
+      }else{
+            divLimite.style.display = "none"
       }
 })
 document.querySelectorAll("input[name='grafo']").forEach(radio => {
@@ -102,7 +105,15 @@ function encontrarCaminho(event) {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        document.getElementById("caminho").innerText = data.valores;
+        const caminho = document.getElementById("caminho");
+        caminho.innerText = "";
+        caminho.innerText += data.valores;
+        if (data.custo_total) {
+              caminho.innerText += " Custo total: " + data.custo_total;
+        }
+        if (data.limite) {
+            caminho.innerText += " Limite " + data.limite;
+        }
         const img = document.createElement("img");
         img.src = "data:image/png;base64," + data.imagem_base64;
         document.getElementById("resultContainer").innerHTML = "";
