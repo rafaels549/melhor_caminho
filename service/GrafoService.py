@@ -5,6 +5,10 @@ import base64
 from pathlib import Path
 from BuscaNP import buscaNP
 from BuscaP import buscaP
+from ag_pcv import AlgoritmoGenetico
+from subida_encosta import (SubidaEncosta, SubidaEncostaLimite)
+from tempera_simulada import TemperaSimulada
+import numpy as np
 
 
 class GrafoService:
@@ -14,11 +18,51 @@ class GrafoService:
     _nos = None
     _lista_adjacencia = None
     _tipoGrafo  = None
+    _matriz = None
+    ganhos = {
+    "SE" :{
+        "ganho_total": [],
+        "num_execucoes": [],
+        "tamanho_populacao": []
+    },
+    "SEL" :{
+        "ganho_total": [],
+        "num_execucoes": [],
+        "configuracoes": [],
+        "tamanho_populacao": []
+    },
+    "TS" :{
+        "ganho_total": [],
+        "num_execucoes": [],
+        "configuracoes": [],
+        "tamanho_populacao": []
+    },
+    "AG" :{
+        "ganho_total": [],
+        "num_execucoes": [],
+        "configuracoes": [],
+        "tamanho_populacao": []
+    }
+}
 
     def __init__(self, tipoGrafo=None):
         if GrafoService._grafo is None or tipoGrafo != GrafoService._tipoGrafo:
             self.carregar_grafo(tipoGrafo)
 
+
+    def converter_para_python(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()          # array -> lista
+        elif isinstance(obj, (np.integer, np.int32, np.int64)):
+            return int(obj)              # numpy int -> int normal
+        elif isinstance(obj, (np.floating, np.float32, np.float64)):
+            return float(obj)            # numpy float -> float normal
+        elif isinstance(obj, (list, tuple)):
+            return [self.converter_para_python(x) for x in obj]  # recursivo para listas/tuplas
+        elif isinstance(obj, dict):
+            return {k: self.converter_para_python(v) for k, v in obj.items()}  # recursivo para dict
+        else:
+            return obj
 
     def carregar_grafo(self, tipoGrafo=None):
         # Define arquivo a ser carregado
@@ -189,3 +233,59 @@ class GrafoService:
         plt.close()
         buf.seek(0)
         return base64.b64encode(buf.getvalue()).decode("utf-8")
+    
+
+    
+    def calcular_algoritmo_genetico(self, metodo, mat, tp, ng, tc, tm, ig, limite=None, t_ini=None, t_fim=None, fr=None):
+       
+        if metodo == "AlgoritimoGenetico":
+            si, sf, vi, vf = AlgoritmoGenetico(len(mat), mat, tp, ng, tc, tm, ig)
+
+
+            GrafoService.ganhos['AG']["num_execucoes"].append(len(GrafoService.ganhos['AG']["num_execucoes"]) + 1)
+            GrafoService.ganhos['AG']["configuracoes"].append({
+                "tp": tp,
+                "ng": ng,
+                "tc": tc,
+                "tm": tm,
+            })
+            GrafoService.ganhos['AG']["ganho_total"].append(100*abs((vf - vi))/vi)
+            GrafoService.ganhos['AG']["tamanho_populacao"].append(len(mat))
+            
+        if metodo == "SubidaEncosta":
+            sf, vf, si, vi = SubidaEncosta(len(mat), mat)
+            GrafoService.ganhos['SE']["ganho_total"].append(100*abs((vf - vi))/vi)
+            GrafoService.ganhos['SE']["tamanho_populacao"].append(len(mat))
+            GrafoService.ganhos['SE']["num_execucoes"].append(len(GrafoService.ganhos['SE']["num_execucoes"]) + 1)
+           
+        if metodo == "SubidaEncostaLimite":
+            sf, vf,si, vi = SubidaEncostaLimite(len(mat), mat, limite) 
+            GrafoService.ganhos['SEL']["ganho_total"].append(100*abs((vf - vi))/vi)   
+            GrafoService.ganhos['SEL']["num_execucoes"].append(len(GrafoService.ganhos['SEL']["num_execucoes"]) + 1)
+            GrafoService.ganhos['SEL']["tamanho_populacao"].append(len(mat))
+            GrafoService.ganhos['SEL']["configuracoes"].append({
+                "max_iter": limite,
+            })
+        if metodo == "TemperaSimulada":
+            si, vi, sf, vf = TemperaSimulada(len(mat), mat, t_ini, t_fim, fr)
+            GrafoService.ganhos['TS']["ganho_total"].append(100*abs((vf - vi))/vi)   
+            GrafoService.ganhos['TS']["num_execucoes"].append(len(GrafoService.ganhos['TS']["num_execucoes"]) + 1)
+            GrafoService.ganhos['TS']["tamanho_populacao"].append(len(mat))
+            GrafoService.ganhos['TS']["configuracoes"].append({
+                "initial_temp": t_ini,
+                "final_temp": t_fim,
+                "cooling_rate": fr
+            })    
+        
+        resultado = {
+        "si": si,
+        "sf": sf,
+        "vi": vi,
+        "vf": vf,
+    }
+
+        resultado_convertido = self.converter_para_python(resultado)
+
+        return {"resultado": resultado_convertido}
+    def gerar_relatorio(self):
+        return GrafoService.ganhos

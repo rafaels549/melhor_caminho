@@ -2,6 +2,7 @@ const URL = "http://127.0.0.1:8000";
 
 document.addEventListener("DOMContentLoaded", function() {
     geraImagemGrafo();
+    irParaBlMetaheuristicas();
     
     
 });
@@ -125,4 +126,10 @@ function encontrarCaminho(event) {
         document.getElementById("container").style.opacity = "1";
     });
 }
-
+function irParaBlMetaheuristicas() {
+    const confirmButton = document.getElementById("confirm_grafo");
+   confirmButton.addEventListener("click", function() {
+       // Lógica para lidar com a confirmação do grafo
+         window.location.href = "/busca_local_metaheuristicas";
+   });
+}
