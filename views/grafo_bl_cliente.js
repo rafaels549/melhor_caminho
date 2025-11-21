@@ -26,27 +26,30 @@ function gerarPDF() {
 
 function IniciarValoresBuscaLocalMetaheuristicas(event) {
     
-
     if (event.target.value  === "AlgoritimoGenetico") {
         document.getElementById("genetic_parameters").style.display = "block";
         document.getElementById("tempera").style.display = "none";
         document.getElementById("limite").style.display = "none";
+      
     } else if (event.target.value === "SubidaEncostaLimite") {
         document.getElementById("limite").style.display = "block";
         document.getElementById("tempera").style.display = "none";
         document.getElementById("genetic_parameters").style.display = "none";
-    }else if(event.target.value === "TemperaSimulada"){
-       document.getElementById("genetic_parameters").style.display = "none";
-       document.getElementById("limite").style.display = "none";
+    
+
+    } else if (event.target.value === "TemperaSimulada") {
         document.getElementById("tempera").style.display = "block";
-    }
-     else {
+        document.getElementById("genetic_parameters").style.display = "none";
+        document.getElementById("limite").style.display = "none";
+
+
+    } else {
         document.getElementById("genetic_parameters").style.display = "none";
         document.getElementById("limite").style.display = "none";
         document.getElementById("tempera").style.display = "none";
     }
-
 }
+
 
 document.getElementById("initial_solution").addEventListener("click", function(event) {
     event.preventDefault();
