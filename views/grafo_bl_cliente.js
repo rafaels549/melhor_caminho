@@ -200,7 +200,7 @@ document.getElementById("searchForm").addEventListener("submit", async function(
     
    // Aqui você pode adicionar a lógica para lidar com o resultado da busca
    if (result.resultado) {
-       document.getElementById("caminho").innerText = "Caminho: " + result.resultado.sf + " Custo total: " + result.resultado.vf + " Solucão inicial: " + result.resultado.si + " Custo inicial: " + result.resultado.vi;
+       document.getElementById("caminho").innerText = "Solução Final: " + result.resultado.sf + " Custo total: " + result.resultado.vf + " Solucão inicial: " + result.resultado.si + " Custo inicial: " + result.resultado.vi;
     ;
 
 // Define limite de tamanho para a imagem
