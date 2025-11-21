@@ -29,12 +29,11 @@ function IniciarValoresBuscaLocalMetaheuristicas(event) {
     if (event.target.value  === "AlgoritimoGenetico") {
         document.getElementById("genetic_parameters").style.display = "block";
         document.getElementById("limite").style.display = "none";
-        document.getElementById("tempera").style.display = "none"; // <── ADICIONADO
-
+        document.getElementById("tempera").style.display = "none";
     } else if (event.target.value === "SubidaEncostaLimite") {
         document.getElementById("limite").style.display = "block";
         document.getElementById("genetic_parameters").style.display = "none";
-        document.getElementById("tempera").style.display = "none"; // <── ADICIONADO
+        document.getElementById("tempera").style.display = "none";
 
     } else if (event.target.value === "TemperaSimulada") {
         document.getElementById("tempera").style.display = "block";
@@ -44,7 +43,7 @@ function IniciarValoresBuscaLocalMetaheuristicas(event) {
     } else {
         document.getElementById("genetic_parameters").style.display = "none";
         document.getElementById("limite").style.display = "none";
-        document.getElementById("tempera").style.display = "none"; // <── ADICIONADO
+        document.getElementById("tempera").style.display = "none";
     }
 }
 
