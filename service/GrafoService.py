@@ -264,7 +264,7 @@ class GrafoService:
             GrafoService.ganhos['SEL']["num_execucoes"].append(len(GrafoService.ganhos['SEL']["num_execucoes"]) + 1)
             GrafoService.ganhos['SEL']["tamanho_populacao"].append(len(mat))
             GrafoService.ganhos['SEL']["configuracoes"].append({
-                "max_iter": limite,
+                "limite": limite,
             })
         if metodo == "TemperaSimulada":
             si, vi, sf, vf = TemperaSimulada(len(mat), mat, t_ini, t_fim, fr)
