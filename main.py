@@ -26,7 +26,7 @@ def busca_local_metaheuristicas():
 def calcular_rota_bl(rota: RotaBL):
     mat = GerarProblema(rota.initial_solution, 1, 100)
     grafo_service._matriz = mat
-    resultado = grafo_service.calcular_algoritmo_genetico(
+    resultado = grafo_service.calcular_caminho_bl(
         metodo=rota.methodSelect,
         mat=grafo_service._matriz,
         tp=rota.TP,

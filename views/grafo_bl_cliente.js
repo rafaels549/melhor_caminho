@@ -2,6 +2,11 @@ const URL = "http://127.0.0.1:8000";
 document.addEventListener("DOMContentLoaded", function() {
 });
 
+
+document.getElementById("resetButton").addEventListener("click", function(event) {
+   document.getElementById("Obter").style.display = "block";
+});
+
 document.getElementById("methodSelect").addEventListener("change", function(event){
     event.preventDefault();
     IniciarValoresBuscaLocalMetaheuristicas(event);

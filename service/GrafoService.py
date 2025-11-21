@@ -236,7 +236,7 @@ class GrafoService:
     
 
     
-    def calcular_algoritmo_genetico(self, metodo, mat, tp, ng, tc, tm, ig, limite=None, t_ini=None, t_fim=None, fr=None):
+    def calcular_caminho_bl(self, metodo, mat, tp, ng, tc, tm, ig, limite=None, t_ini=None, t_fim=None, fr=None):
        
         if metodo == "AlgoritimoGenetico":
             si, sf, vi, vf = AlgoritmoGenetico(len(mat), mat, tp, ng, tc, tm, ig)
