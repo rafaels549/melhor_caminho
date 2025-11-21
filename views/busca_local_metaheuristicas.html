@@ -11,15 +11,11 @@
 <div id="container">
 
     <form id="searchForm">
-
-        <!-- Seção: Tamanho do Problema -->
         <div class="card">
             <h2>Configuração Inicial</h2>
             <label for="initial_solution">Tamanho do problema:</label>
             <input type="number" id="initial_solution" name="initial_solution" min="1" max="30" value="20">
         </div>
-
-        <!-- Seção: Métodos -->
         <div class="card">
             <h2>Método que deseja utilizar</h2>
 
@@ -30,13 +26,11 @@
                 <option value="AlgoritimoGenetico">Algoritmo Genético</option>
             </select>
 
-            <!-- Limite Subida de Encosta com Tentativa -->
             <div id="limite" style="display:none;">
                 <label id="labelNumber" for="number">Número de tentativas: </label>
                 <input id="number" name="limite"  type="number">
             </div>
 
-            <!-- Parâmetros Genéticos -->
             <div id="genetic_parameters" style="display:none;">
                 <label for="TP">Tamanho da População:</label>
                 <input type="number" id="TP" name="TP" min="10" max="1000" value="30">
@@ -54,7 +48,6 @@
                 <input type="number" id="IG" name="IG" step="0.01" min="0.0" max="0.5" value="0.2">
             </div>
 
-            <!-- Parâmetros Têmpera Simulada -->
             <div id="tempera" style="display:none;">
                 <label for="initial_temp">Temperatura Inicial:</label>
                 <input type="number" id="initial_temp" name="initial_temp" step="any" min="0.1" value="100.0">
@@ -67,7 +60,6 @@
             </div>
         </div>
 
-        <!-- Seção: Parâmetros -->
         <div class="card">
             <h2>Parâmetros do Algoritmo</h2>
             <div id="parameters"></div>
@@ -78,14 +70,12 @@
 
     </form>
 
-    <!-- Seção: Resultado -->
     <div class="card resultado">
         <h2>Resultado da Busca</h2>
         <p id="caminho"></p>
         <div id="resultContainer"></div>
     </div>
-
-    <!-- Seção: Relatório -->
+    
     <div class="card relatorio">
         <h2>Relatório de Ganhos Percentuais Médios</h2>
 
